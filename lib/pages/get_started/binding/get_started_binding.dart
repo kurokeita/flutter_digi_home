@@ -6,7 +6,7 @@ class GetStartedBinding extends Bindings {
   @override
   void dependencies() {
     Get.put(GetStartedController());
-    Get.put(GetStartedService());
+    Get.put(GetStartedApi());
   }
 
 }

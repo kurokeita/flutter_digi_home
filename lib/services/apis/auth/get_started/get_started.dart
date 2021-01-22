@@ -1,18 +1,30 @@
-import 'package:dio/dio.dart';
+import 'dart:convert';
+import 'dart:io';
+import 'package:flutter_getx/services/apis/auth/auth_api.dart';
+import 'package:logger/logger.dart';
+import 'package:flutter_getx/utils/toast/toast.dart';
+import 'package:flutter_getx/models/auth/phone_look_up.dart';
 
-class GetStartedService {
-  Dio dio;
+class GetStartedApi extends AuthApi {
+  String uri = '/oauth/lookup';
+  final logger = Logger();
 
-  Future<Response> lookUp(String countryCode, String phone) async {
-    Response response;
-    response = await dio.post(
-      "https://stg-digi-auth.notifun.com/oauth/lookup",
-      queryParameters: {
-        'country_code': countryCode,
-        'phone': phone
-      }
-    );
+  Future<dynamic> lookUp({String countryCode, String phone}) async {
+    Map body = {
+      'country_code': countryCode,
+      'phone': phone
+    };
+    var response = await post(uri: uri, body: body);
 
-    return response;
+    var data = jsonDecode(response.body);
+
+    if (response.statusCode == HttpStatus.ok) {
+      PhoneLookUp phoneLookUp = PhoneLookUp.fromJson(data['data']);
+      Toast.toast(phoneLookUp.verified ? 'Phone verified' : 'Phone not verified');
+      return phoneLookUp;
+    } else {
+      Toast.toast(data['message']);
+      return null;
+    }
   }
 }

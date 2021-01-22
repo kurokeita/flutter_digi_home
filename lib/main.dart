@@ -7,7 +7,6 @@ import 'package:flutter_getx/pages/home/binding/home_binding.dart';
 import 'package:flutter_getx/pages/home/view/home.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
-import 'package:logger/logger.dart';
 
 void main() async {
   await GetStorage.init();

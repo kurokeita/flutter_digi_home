@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_getx/components/nav_bar/controller/nav_bar_controller.dart';
-import 'package:flutter_getx/pages/detail/view/detail.dart';
 import 'package:flutter_getx/pages/home/view/home.dart';
 import 'package:get/get.dart';
-import 'package:logger/logger.dart';
 
 class NavBar extends StatelessWidget {
   @override
