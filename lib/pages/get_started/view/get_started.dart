@@ -40,6 +40,7 @@ class GetStarted extends StatelessWidget {
           ),
           Container(
             child: CupertinoTextField(
+              placeholder: 'Phone number',
               controller: phoneController,
               onChanged: (phone) => gsc.changePhone(phone),
               prefix: Icon(Icons.phone),
@@ -50,6 +51,7 @@ class GetStarted extends StatelessWidget {
             () => Visibility(
               child: Container(
                 child: CupertinoTextField(
+                  placeholder: 'Password',
                   controller: passwordController,
                   onChanged: (password) => Toast.toast(password),
                   obscureText: true,
