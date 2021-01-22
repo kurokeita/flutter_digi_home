@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_getx/pages/get_started/controller/get_started_controller.dart';
 import 'package:flutter_getx/services/apis/auth/get_started/get_started.dart';
 import 'package:get/get.dart' hide Response;
-import 'package:logger/logger.dart';
 import 'package:flutter_getx/utils/toast/toast.dart';
 
 class GetStarted extends StatelessWidget {
@@ -15,13 +14,17 @@ class GetStarted extends StatelessWidget {
     final gss = Get.find<GetStartedApi>();
 
     _getStarted() async {
+      gsc.changeLoadingStatus();
+
       var response = await gss.lookUp(
         countryCode: gsc.countryCode.value,
         phone: gsc.phone.value
       );
 
+      gsc.changeLoadingStatus();
+
       if (response != null) {
-        gsc.status(response.verified);
+        gsc.changeVerifiedStatus(response.verified);
       }
     }
 
@@ -31,12 +34,17 @@ class GetStarted extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Container(
+            child: Expanded(
+              child: Image.asset('assets/images/logo.png'),
+            )
+          ),
+          Container(
             child: CupertinoTextField(
               controller: phoneController,
               onChanged: (phone) => gsc.changePhone(phone),
               prefix: Icon(Icons.phone),
             ),
-            padding: EdgeInsets.all(50),
+            padding: EdgeInsets.only(left: 50, right: 50, bottom: 20),
           ),
           Obx(
             () => Visibility(
@@ -47,7 +55,7 @@ class GetStarted extends StatelessWidget {
                   obscureText: true,
                   prefix: Icon(Icons.lock),
                 ),
-                padding: EdgeInsets.all(50),
+                padding: EdgeInsets.only(left: 50, right: 50, bottom: 20),
               ),
               visible: gsc.verified.value == 2,
             )
@@ -60,7 +68,22 @@ class GetStarted extends StatelessWidget {
                 onPressed: _getStarted,
               ),
             )
-          )
+          ),
+          Obx(
+            () => Visibility(
+              child: Container(
+                child: CupertinoActivityIndicator(
+                  animating: true,
+                  radius: 50,
+                ),
+                padding: EdgeInsets.all(30),
+              ),
+              visible: gsc.loading.value,
+              maintainSize: true,
+              maintainAnimation: true,
+              maintainState: true,
+            )
+          ),
         ],
       )
     );
