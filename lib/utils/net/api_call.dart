@@ -9,6 +9,13 @@ abstract class ApiCall {
     return response;
   }
 
+  Future<dynamic> get({String uri, body}) async {
+    var url = new Uri.http(this.url(uri), body);
+    var response = await client.get(url);
+    
+    return response;
+  }
+
   String domain();
 
   String url(String uri) {

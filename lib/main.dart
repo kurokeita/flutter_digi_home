@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_getx/pages/detail/binding/detail_binding.dart';
 import 'package:flutter_getx/pages/detail/view/detail.dart';
 import 'package:flutter_getx/pages/get_started/binding/get_started_binding.dart';
+import 'package:flutter_getx/pages/get_started/controller/log_in_controller.dart';
 import 'package:flutter_getx/pages/get_started/view/get_started.dart';
 import 'package:flutter_getx/pages/home/binding/home_binding.dart';
 import 'package:flutter_getx/pages/home/view/home.dart';
@@ -18,6 +19,10 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final box = GetStorage();
+    LoginController loginController = Get.put(LoginController());
+    loginController.setAccessToken(box.read('access_token'));
+    loginController.setRefreshToken(box.read('refresh_token'));
+    loginController.setLoggedInStatus([null, ''].contains(loginController.accessToken.value) ? false : true);
 
     return GetMaterialApp(
       title: 'Flutter Getx Demo',

@@ -3,14 +3,19 @@ import 'package:get/get.dart';
 class GetStartedController extends GetxController {
   var countryCode = '84'.obs;
   var phone = ''.obs;
+  var password = ''.obs;
   var verified = 0.obs;
   var loading = false.obs;
 
-  void changeCountryCode(String newCountryCode) => countryCode.value = newCountryCode;
+  void changeCountryCode(String countryCode) => this.countryCode.value = countryCode;
 
-  void changePhone(String newPhone) {
-    phone.value = newPhone;
+  void changePhone(String phone) {
+    this.phone.value = phone;
     verified.value = 0;
+  }
+
+  void changePassword(String password) {
+    this.password.value = password;
   }
 
   void changeVerifiedStatus(bool status) {
