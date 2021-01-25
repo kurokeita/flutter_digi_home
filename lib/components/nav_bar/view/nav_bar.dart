@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_getx/components/nav_bar/controller/nav_bar_controller.dart';
-import 'package:flutter_getx/pages/home/view/home.dart';
+import 'package:flutter_getx/views/home/home.dart';
 import 'package:get/get.dart';
 
 class NavBar extends StatelessWidget {

@@ -1,7 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_getx/components/nav_bar/view/nav_bar.dart';
-import 'package:flutter_getx/pages/home/controller/home_controller.dart';
+import 'package:flutter_getx/controllers/home/home_controller.dart';
+import 'package:flutter_getx/services/apis/house/index_house/index_house.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 
@@ -10,6 +11,7 @@ class Home extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final homeController = Get.find<HomeController>();
+    final indexHouseApi = Get.find<IndexHouseApi>();
 
     void _onPressed() {
       homeController.increment();
@@ -28,7 +30,11 @@ class Home extends StatelessWidget {
       box.remove('refresh_token');
 
       // TODO: logout not working yet
-      Get.toNamed('get_started');
+      Get.offAllNamed('get_started');
+    }
+
+    void _indexHouse() {
+      indexHouseApi.index();
     }
 
     return Scaffold(
@@ -47,17 +53,7 @@ class Home extends StatelessWidget {
                 )
             ),
             CupertinoButton(
-              onPressed: () {
-                // Get.defaultDialog(title: "This is dialog");
-                // Get.snackbar("Title", "This is getx snackbar", snackPosition: SnackPosition.BOTTOM);
-                Get.dialog(
-                  CupertinoAlertDialog(
-                    title: Text('Popup title'),
-                    content: Text('Popup content'),
-                  )
-                );
-                // Get.toNamed("/detail");
-              },
+              onPressed: () => _indexHouse(),
               child: Text("Go to detail"),
               color: Colors.purple,
               // textColor: Colors.white,

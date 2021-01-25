@@ -1,13 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_getx/pages/get_started/controller/get_started_controller.dart';
-import 'package:flutter_getx/pages/get_started/controller/log_in_controller.dart';
+import 'package:flutter_getx/controllers/get_started/get_started_controller.dart';
+import 'package:flutter_getx/controllers/global_controller.dart';
 import 'package:flutter_getx/services/apis/auth/get_started/get_started.dart';
 import 'package:flutter_getx/services/apis/auth/login/login.dart';
 import 'package:flutter_getx/services/apis/auth/register/register.dart';
 import 'package:get/get.dart' hide Response;
-import 'package:flutter_getx/utils/toast/toast.dart';
-import 'package:logger/logger.dart';
 
 class GetStarted extends StatelessWidget {
   @override
@@ -15,14 +13,10 @@ class GetStarted extends StatelessWidget {
     final TextEditingController phoneController = TextEditingController();
     final TextEditingController passwordController = TextEditingController();
     final gsc = Get.find<GetStartedController>();
-    final lgc = Get.find<LoginController>();
+    final lgc = Get.find<GlobalController>();
     final gss = Get.find<GetStartedApi>();
     final rs = Get.find<RegisterApi>();
     final lg = Get.find<LoginApi>();
-
-    if (lgc.loggedIn.value) {
-      Get.offNamed('/home');
-    }
 
     _getStarted() async {
       gsc.changeLoadingStatus();
@@ -67,10 +61,10 @@ class GetStarted extends StatelessWidget {
       if (response != null) {
         lgc.setAccessToken(response.access_token);
         lgc.setRefreshToken(response.refresh_token);
-        lgc.setLoggedInStatus(true);
+        lgc.setLoginStatus(true);
       }
 
-      Get.toNamed('home');
+      Get.offNamed('home');
     }
 
     return CupertinoPageScaffold(

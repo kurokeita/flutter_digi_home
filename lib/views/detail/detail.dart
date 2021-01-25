@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_getx/components/nav_bar/view/nav_bar.dart';
-import 'package:flutter_getx/pages/home/controller/home_controller.dart';
+import 'package:flutter_getx/controllers/home/home_controller.dart';
 import 'package:get/get.dart';
 
 class Detail extends StatelessWidget {

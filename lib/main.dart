@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_getx/pages/detail/binding/detail_binding.dart';
-import 'package:flutter_getx/pages/detail/view/detail.dart';
-import 'package:flutter_getx/pages/get_started/binding/get_started_binding.dart';
-import 'package:flutter_getx/pages/get_started/controller/log_in_controller.dart';
-import 'package:flutter_getx/pages/get_started/view/get_started.dart';
-import 'package:flutter_getx/pages/home/binding/home_binding.dart';
-import 'package:flutter_getx/pages/home/view/home.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_getx/bindings/detail/detail_binding.dart';
+import 'package:flutter_getx/views/detail/detail.dart';
+import 'package:flutter_getx/bindings/get_started/get_started_binding.dart';
+import 'package:flutter_getx/views/get_started/get_started.dart';
+import 'package:flutter_getx/bindings/home/home_binding.dart';
+import 'package:flutter_getx/views/home/home.dart';
+import 'package:flutter_getx/controllers/global_controller.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 
@@ -18,11 +19,15 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+      statusBarColor: Colors.deepPurple,
+    ));
     final box = GetStorage();
-    LoginController loginController = Get.put(LoginController());
-    loginController.setAccessToken(box.read('access_token'));
-    loginController.setRefreshToken(box.read('refresh_token'));
-    loginController.setLoggedInStatus([null, ''].contains(loginController.accessToken.value) ? false : true);
+    GlobalController globalController = Get.put(GlobalController());
+    globalController.setAccessToken(box.read('access_token'));
+    globalController.setRefreshToken(box.read('refresh_token'));
+    globalController.setLoginStatus([null, ''].contains(globalController.accessToken.value) ? false : true);
+
 
     return GetMaterialApp(
       title: 'Flutter Getx Demo',
@@ -35,7 +40,7 @@ class MyApp extends StatelessWidget {
         GetPage(name: "/home", page: () => Home(), binding: HomeBinding()),
         GetPage(name: "/detail", page: () => Detail(), binding: DetailBinding()),
       ],
-      initialRoute: ["", null, false, 0].contains(box.read('access_token')) ? '/get_started' : '/home',
+      initialRoute: globalController.loginStatus.value ? 'home' : 'get_started',
       debugShowCheckedModeBanner: false,
     );
   }
