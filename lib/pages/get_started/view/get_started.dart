@@ -19,7 +19,6 @@ class GetStarted extends StatelessWidget {
     final gss = Get.find<GetStartedApi>();
     final rs = Get.find<RegisterApi>();
     final lg = Get.find<LoginApi>();
-    final logger = Logger();
 
     if (lgc.loggedIn.value) {
       Get.offNamed('/home');
@@ -70,6 +69,8 @@ class GetStarted extends StatelessWidget {
         lgc.setRefreshToken(response.refresh_token);
         lgc.setLoggedInStatus(true);
       }
+
+      Get.toNamed('home');
     }
 
     return CupertinoPageScaffold(
@@ -83,28 +84,54 @@ class GetStarted extends StatelessWidget {
             )
           ),
           Container(
-            child: CupertinoTextField(
-              placeholder: 'Phone number',
-              controller: phoneController,
-              onChanged: (phone) => gsc.changePhone(phone),
-              prefix: Icon(Icons.phone),
+            child: SizedBox(
+              child: CupertinoTextField(
+                placeholder: 'Phone number',
+                controller: phoneController,
+                onChanged: (phone) => gsc.changePhone(phone),
+                prefix: Container(
+                  child: Icon(Icons.phone),
+                  padding: EdgeInsets.only(left: 10),
+                ),
+                keyboardType: TextInputType.number,
+                style: TextStyle(
+                  fontSize: 25
+                ),
+              ),
+              height: 40,
             ),
-            padding: EdgeInsets.only(left: 50, right: 50, bottom: 20),
+            padding: EdgeInsets.only(left: 50, right: 50),
+          ),
+          SizedBox(
+            height: 20,
           ),
           Obx(
             () => Visibility(
               child: Container(
-                child: CupertinoTextField(
-                  placeholder: 'Password',
-                  controller: passwordController,
-                  onChanged: (password) => gsc.changePassword(password),
-                  obscureText: true,
-                  prefix: Icon(Icons.lock),
+                child: SizedBox(
+                  child: CupertinoTextField(
+                    placeholder: 'Password',
+                    controller: passwordController,
+                    onChanged: (password) => gsc.changePassword(password),
+                    obscureText: true,
+                    prefix: Container(
+                      child: Icon(Icons.lock),
+                      padding: EdgeInsets.only(left: 10),
+                    ),
+                    keyboardType: TextInputType.number,
+                    style: TextStyle(
+                      fontSize: 25
+                    ),
+                  ),
+                  height: 40,
                 ),
-                padding: EdgeInsets.only(left: 50, right: 50, bottom: 20),
+                padding: EdgeInsets.only(left: 50, right: 50),
               ),
               visible: gsc.verified.value == 2,
             )
+          ),
+          SizedBox(
+            height: 20,
           ),
           Obx(
             () => Container(

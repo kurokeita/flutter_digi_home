@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_getx/components/nav_bar/view/nav_bar.dart';
 import 'package:flutter_getx/pages/home/controller/home_controller.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 
 
 class Home extends StatelessWidget {
@@ -18,6 +19,16 @@ class Home extends StatelessWidget {
         snackPosition: SnackPosition.TOP,
         snackStyle: SnackStyle.FLOATING,
       );
+    }
+
+    void _logOut() {
+      final box = GetStorage();
+
+      box.remove('access_token');
+      box.remove('refresh_token');
+
+      // TODO: logout not working yet
+      Get.toNamed('get_started');
     }
 
     return Scaffold(
@@ -48,8 +59,16 @@ class Home extends StatelessWidget {
                 // Get.toNamed("/detail");
               },
               child: Text("Go to detail"),
-              color: Colors.red,
+              color: Colors.purple,
               // textColor: Colors.white,
+            ),
+            SizedBox(
+              height: 20,
+            ),
+            CupertinoButton(
+              onPressed: _logOut,
+              child: Text('Log Out'),
+              color: Colors.red,
             )
           ],
         ),
